@@ -1,20 +1,20 @@
-cloudformation
-==============
+Serverless Application Model
+============================
 
 To apply the template, run
 
 ```
-aws cloudformation create-stack --stack-name alans-init-stack --template-body file://init.yaml
+aws cloudformation create-stack --stack-name alans-sam-init --template-body file://init.yaml
 
-aws cloudformation describe-stacks --stack-name alans-init-stack --query "Stacks[0].Outputs"
+BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name alans-sam-init --query "Stacks[0].Outputs[?OutputKey=='BucketName'].OutputValue" --output text)
 
-BUCKET_NAME=$(aws cloudformation describe-stacks --stack-name alans-init-stack --query "Stacks[0].Outputs[?OutputKey=='BucketName'].OutputValue" --output text)
+sam build
 
-zip -r function function
+sam local invoke
 
-aws s3 cp function.zip s3://${BUCKET_NAME}
+sam deploy --stack-name sam --s3-bucket ${BUCKET_NAME} --capabilities CAPABILITY_IAM
 
-VERSION=$(aws s3api list-object-versions --bucket ${BUCKET_NAME} --query "Versions[?Key=='function.zip' && IsLatest].VersionId" --output text)
+FUNCTION=$(aws cloudformation describe-stacks --stack-name sam --query "Stacks[0].Outputs[?OutputKey=='FunctionName'].OutputValue" --output text)
 
-aws cloudformation create-stack --stack-name alans-test-stack --template-body file://template.yaml --parameters ParameterKey=BucketName,ParameterValue=${BUCKET_NAME} ParameterKey=S3Version,ParameterValue=${VERSION} --capabilities CAPABILITY_IAM
+aws lambda invoke --function-name ${FUNCTION} /dev/stderr | cat
 ```

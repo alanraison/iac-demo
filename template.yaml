@@ -1,21 +1,13 @@
 AWSTemplateFormatVersion: "2010-09-09"
-
-Parameters:
-  BucketName:
-    Type: String
-  S3Version:
-    Type: String
+Transform: AWS::Serverless-2016-10-31
 
 Resources:
   Function:
-    Type: AWS::Lambda::Function
+    Type: AWS::Serverless::Function
     Properties:
       Runtime: nodejs14.x
-      Code:
-        S3Bucket: !Ref BucketName
-        S3Key: function.zip
-        S3ObjectVersion: !Ref S3Version
-      Handler: function/index.handler
+      CodeUri: ./function
+      Handler: index.handler
       Role: !GetAtt ExecutionRole.Arn
 
   ExecutionRole:
@@ -33,3 +25,6 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
         
+Outputs:
+  FunctionName:
+    Value: !Ref Function
