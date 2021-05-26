@@ -9,6 +9,12 @@ Resources:
       CodeUri: ./function
       Handler: index.handler
       Role: !GetAtt ExecutionRole.Arn
+      Events:
+        HttpApiEvent:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: GET
 
   ExecutionRole:
     Type: AWS::IAM::Role
