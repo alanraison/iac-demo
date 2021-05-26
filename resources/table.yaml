@@ -1,0 +1,4 @@
+Table:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    

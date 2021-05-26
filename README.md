@@ -2,5 +2,5 @@ Serverless
 ==========
 
 ```
-npx serverless create aws-nodejs-typescript
+npx serverless create aws-nodejs
 ```
