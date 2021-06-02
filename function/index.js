@@ -1,4 +1,4 @@
-export const handler = async () => {
+exports.handler = async () => {
   console.log('Handler called');
   return {
     statusCode: 200,
