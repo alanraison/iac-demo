@@ -1,4 +1,10 @@
 Table:
   Type: AWS::DynamoDB::Table
   Properties:
-    
+    AttributeDefinitions:
+      - AttributeName: GK1
+        AttributeType: S
+    BillingMode: PAY_PER_REQUEST
+    KeySchema:
+      - AttributeName: GK1
+        KeyType: HASH
