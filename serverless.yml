@@ -47,4 +47,5 @@ functions:
           method: get
 
 resources:
-  - "${file(resources/table.yaml)}"
+  Resources:
+    Table: ${file(resources/table.yaml)}
