@@ -5,5 +5,8 @@
   "dependencies": {
     "serverless": "^2.44.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "scripts": {
+    "sls": "sls"
+  }
 }
